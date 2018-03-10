@@ -1,3 +1,9 @@
-<div #terminal class="terminal">
-  {{log}}
+<div class="terminal-container">
+  <mat-toolbar class="terminal-toolbar">
+    <button mat-raised-button (click)="clearLog()"><mat-icon>clear_all</mat-icon></button>
+  </mat-toolbar>
+  <div #terminal class="terminal">{{log}}</div>
+  <div class="terminal-input">
+    <!--<input #input type="text" (keyup.enter)="sendInput()" />-->
+  </div>
 </div>

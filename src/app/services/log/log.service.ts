@@ -5,18 +5,28 @@ import {Observable} from 'rxjs/Observable';
 @Injectable()
 export class LogService {
 
-  private logValue: string;
+  private readonly initialValue = 'Type a command or use the program...';;
+  private logValue = this.initialValue;
   private readonly logSubject = new BehaviorSubject<string>(this.logValue);
   readonly log: Observable<string> = this.logSubject.asObservable();
 
-  constructor() {  }
+  constructor() {
+  }
 
   public getLog(): Observable<string> {
     return this.log;
   }
 
   append(value: string) {
-    this.logValue += value + '\n';
+    if (value === '') {
+      return;
+    }
+    this.logValue += '\n' + value;
+    this.logSubject.next(this.logValue);
+  }
+
+  public reset() {
+    this.logValue = this.initialValue;
     this.logSubject.next(this.logValue);
   }
 }

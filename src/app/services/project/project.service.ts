@@ -4,7 +4,7 @@ import {Observable} from 'rxjs/Observable';
 
 @Injectable()
 export class ProjectService {
-  private readonly currentProjectSubject = new BehaviorSubject<string>('E:/Projects/DockterProjects/');
+  private readonly currentProjectSubject = new BehaviorSubject<string>('E:\\Projects\\DockterProjects');
   readonly currentProject: Observable<string> = this.currentProjectSubject.asObservable();
 
   constructor() { }
