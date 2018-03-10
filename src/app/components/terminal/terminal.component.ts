@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {AfterViewChecked, AfterViewInit, Component, OnChanges, OnInit, SimpleChanges, ViewChild} from '@angular/core';
 import {LogService} from '../../services/log/log.service';
 import {Subscription} from 'rxjs/Subscription';
 
@@ -7,7 +7,9 @@ import {Subscription} from 'rxjs/Subscription';
   templateUrl: './terminal.component.html',
   styleUrls: ['./terminal.component.css']
 })
-export class TerminalComponent implements OnInit {
+export class TerminalComponent implements OnInit, AfterViewChecked {
+
+  @ViewChild('terminal') terminal;
 
   log: String = '';
   logSub: Subscription;
@@ -18,5 +20,9 @@ export class TerminalComponent implements OnInit {
     this.logSub = this.logService.getLog().subscribe((value) => {
       this.log = value;
     });
+  }
+
+  ngAfterViewChecked(): void {
+    this.terminal.nativeElement.scrollTop = this.terminal.nativeElement.scrollHeight;
   }
 }
