@@ -1,7 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
 
 import { AppComponent } from './app.component';
 import { FileEditorComponent } from './components/file-editor/file-editor.component';
@@ -16,13 +15,12 @@ import {MaterialsModule} from './modules/materials/materials.module';
     FileEditorComponent,
     FileExplorerComponent,
     TerminalComponent,
-    ToolbarComponent,
-    MaterialsModule
+    ToolbarComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
-    HttpModule
+    MaterialsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
