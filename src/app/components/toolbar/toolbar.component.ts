@@ -16,4 +16,8 @@ export class ToolbarComponent {
   public build() {
     this.dockerService.dockerComposeBuild();
   }
+
+  public ls() {
+    this.dockerService.exec('ls', []);
+  }
 }

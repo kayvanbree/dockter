@@ -9,11 +9,9 @@ export class DockerService {
   project: string;
   projectSub: Subscription;
 
-  constructor(
-    private childProcessService: ChildProcessService,
-    private logService: LogService,
-    private projectService: ProjectService
-  ) {
+  constructor(private childProcessService: ChildProcessService,
+              private logService: LogService,
+              private projectService: ProjectService) {
     this.projectSub = this.projectService.getCurrentProject().subscribe((value) => {
       this.project = value;
     });
@@ -54,7 +52,12 @@ export class DockerService {
    */
   public exec(command: string, args: any) {
     this.logService.append(this.project + ' > ' + this.commandToString(command, args));
-    const compose = this.childProcessService.childProcess.spawn(command, args, [{cwd: this.project}]);
+    const compose = this.childProcessService.childProcess.spawn(
+      command,
+      args,
+      [{cwd: this.project}]
+    );
+
     compose.stdout.on('data', (data) => {
       this.logService.append(data);
     });
