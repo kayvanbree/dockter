@@ -1,12 +1,11 @@
-import {Injectable, OnInit} from '@angular/core';
+import {Injectable, OnInit, ViewChild} from '@angular/core';
 import {ChildProcessService} from 'ngx-childprocess';
 import {LogService} from '../log/log.service';
 import {ProjectService} from '../project/project.service';
 import {Subscription} from 'rxjs/Subscription';
 
 @Injectable()
-export class DockerService implements OnInit {
-
+export class DockerService {
   project: string;
   projectSub: Subscription;
 
@@ -14,12 +13,7 @@ export class DockerService implements OnInit {
     private childProcessService: ChildProcessService,
     private logService: LogService,
     private projectService: ProjectService
-  ) { }
-
-  /**
-   * Subscribes to the current project
-   */
-  ngOnInit() {
+  ) {
     this.projectSub = this.projectService.getCurrentProject().subscribe((value) => {
       this.project = value;
     });
@@ -29,8 +23,16 @@ export class DockerService implements OnInit {
    * Runs the docker-compose up command in the terminal
    */
   public dockerComposeUp() {
-    this.childProcessService.childProcess.exec('docker-compose up -p ' + this.project, [], (value) => {
-      this.logService.append(value);
+    const compose = this.childProcessService.childProcess.spawn('docker-compose', ['up', '--project-name ' + this.project], []);
+    compose.stdout.on('data', (data) => {
+      this.logService.append(data);
+    });
+    compose.stderr.on('data', (data) => {
+      this.logService.append(data);
+    });
+    compose.on('exit', (code, signal) => {
+      this.logService.append('docker-compose-up exited with ' +
+        `code ${code} and signal ${signal}`);
     });
   }
 }
