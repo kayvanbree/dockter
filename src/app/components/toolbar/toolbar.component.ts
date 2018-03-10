@@ -1,15 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import {DockerService} from '../../services/docker/docker.service';
 
 @Component({
   selector: 'app-toolbar',
   templateUrl: './toolbar.component.html',
   styleUrls: ['./toolbar.component.css']
 })
-export class ToolbarComponent implements OnInit {
+export class ToolbarComponent {
+  constructor(private dockerService: DockerService) {}
 
-  constructor() { }
-
-  ngOnInit() {
+  public run() {
+    this.dockerService.dockerComposeUp();
   }
-
 }

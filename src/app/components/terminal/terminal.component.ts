@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import {LogService} from '../../services/log/log.service';
+import {Subscription} from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-terminal',
@@ -7,9 +9,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TerminalComponent implements OnInit {
 
-  constructor() { }
+  log: String = '';
+  logSub: Subscription;
+
+  constructor(private logService: LogService) { }
 
   ngOnInit() {
+    this.logSub = this.logService.getLog().subscribe((value) => {
+      this.log = value;
+    });
   }
-
 }

@@ -9,17 +9,16 @@
   flex: 1;
 }
 
-.toolbar {
-}
-
 .file-editor {
   flex: 1;
 }
 
 .file-explorer {
   flex: 0 0 16em;
+  background: #373737;
 }
 
 .terminal {
   height: 200px;
+  background: #373737;
 }
