@@ -1,0 +1,34 @@
+.holy-grail {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+  background: grey;
+}
+
+.holy-grail-body {
+  display: flex;
+  flex: 1;
+}
+
+.toolbar {
+  background: #373737;
+  color: #A9B7C6;
+}
+
+.file-editor {
+  background: #2B2B2B;
+  color: #A9B7C6;
+  flex: 1;
+}
+
+.file-explorer {
+  background: #373737;
+  color: #A9B7C6;
+  flex: 0 0 16em;
+}
+
+.terminal {
+  background: #373737;
+  color: #A9B7C6;
+  height: 200px;
+}

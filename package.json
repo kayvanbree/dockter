@@ -19,15 +19,19 @@
     "full-build-windows": "npm run build-electron && npm run package-windows && npm run create-installer-windows",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "web": "ng serve"
   },
   "private": true,
   "dependencies": {
+    "@angular/animations": "^5.2.8",
+    "@angular/cdk": "^5.2.4",
     "@angular/common": "^4.0.0",
     "@angular/compiler": "^4.0.0",
     "@angular/core": "^4.0.0",
     "@angular/forms": "^4.0.0",
     "@angular/http": "^4.0.0",
+    "@angular/material": "^5.2.4",
     "@angular/platform-browser": "^4.0.0",
     "@angular/platform-browser-dynamic": "^4.0.0",
     "@angular/router": "^4.0.0",
