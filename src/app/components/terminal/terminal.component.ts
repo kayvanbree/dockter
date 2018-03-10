@@ -35,6 +35,9 @@ export class TerminalComponent implements OnInit, AfterViewChecked {
 
   sendInput() {
     const value = this.input.nativeElement.value;
-    // this.dockerService.exec(value);
+    const args = value.split(' ');
+    const command = args[0];
+    args.shift();
+    this.dockerService.exec(command, args);
   }
 }

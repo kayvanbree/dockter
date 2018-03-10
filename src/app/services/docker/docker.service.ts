@@ -22,9 +22,7 @@ export class DockerService {
   public dockerComposeBuild() {
     const command = 'docker-compose';
     const args = [
-      'build',
-      '--project-name ',
-      this.project
+      'build'
     ];
     this.exec(command, args);
   }
@@ -35,9 +33,7 @@ export class DockerService {
   public dockerComposeUp() {
     const command = 'docker-compose';
     const args = [
-      'up',
-      '--project-name ',
-      this.project
+      'up'
     ];
     this.exec(command, args);
   }
@@ -47,8 +43,8 @@ export class DockerService {
    * @param {string} command
    */
   public execSync(command: string) {
-    this.logService.append('> ' + command);
-    const data = this.childProcessService.childProcess.execSync(command, []);
+    this.logService.append(this.project + '> ' + command);
+    const data = this.childProcessService.childProcess.execSync(command, [{cwd: this.project}]);
     this.logService.append(data);
   }
 
@@ -57,8 +53,8 @@ export class DockerService {
    * @param {string} command
    */
   public exec(command: string, args: any) {
-    this.logService.append('> ' + this.commandToString(command, args));
-    const compose = this.childProcessService.childProcess.spawn(command, args, []);
+    this.logService.append(this.project + '> ' + this.commandToString(command, args));
+    const compose = this.childProcessService.childProcess.spawn(command, args, [{cwd: this.project}]);
     compose.stdout.on('data', (data) => {
       this.logService.append(data);
     });

@@ -12,4 +12,8 @@ export class ToolbarComponent {
   public run() {
     this.dockerService.dockerComposeUp();
   }
+
+  public build() {
+    this.dockerService.dockerComposeBuild();
+  }
 }
