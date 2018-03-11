@@ -1,4 +1,4 @@
-import {AfterViewChecked, ChangeDetectorRef, Component, OnInit, ViewChild} from '@angular/core';
+import {AfterViewChecked, ChangeDetectorRef, Component, OnChanges, OnInit, ViewChild} from '@angular/core';
 import {LogService} from '../../services/log/log.service';
 import {Subscription} from 'rxjs/Subscription';
 import {DockerService} from '../../services/docker/docker.service';
@@ -8,7 +8,7 @@ import {DockerService} from '../../services/docker/docker.service';
   templateUrl: './terminal.component.html',
   styleUrls: ['./terminal.component.css']
 })
-export class TerminalComponent implements OnInit, AfterViewChecked {
+export class TerminalComponent implements OnInit {
 
   @ViewChild('terminal') terminal;
   @ViewChild('input') input;
@@ -21,11 +21,11 @@ export class TerminalComponent implements OnInit, AfterViewChecked {
   ngOnInit() {
     this.logSub = this.logService.getLog().subscribe((value) => {
       this.log = value;
+      this.changeDetector.detectChanges();
     });
-  }
-
-  ngAfterViewChecked() {
-    this.terminal.nativeElement.scrollTop = this.terminal.nativeElement.scrollHeight;
+    this.terminal.nativeElement.addEventListener('DOMSubtreeModified', () => {
+      this.terminal.nativeElement.scrollTop = this.terminal.nativeElement.scrollHeight;
+    });
   }
 
   clearLog() {
