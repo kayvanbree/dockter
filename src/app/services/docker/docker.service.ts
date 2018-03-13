@@ -3,6 +3,7 @@ import {ChildProcessService} from 'ngx-childprocess';
 import {LogService} from '../log/log.service';
 import {ProjectService} from '../project/project.service';
 import {Subscription} from 'rxjs/Subscription';
+import * as shell from 'shelljs';
 
 @Injectable()
 export class DockerService {
@@ -18,45 +19,35 @@ export class DockerService {
   }
 
   public dockerComposeBuild() {
-    const command = 'docker-compose';
-    const args = [
-      'build'
-    ];
-    this.exec(command, args);
+    const command = 'docker-compose build';
+    this.exec(command);
   }
 
   /**
    * Runs the docker-compose up command in the terminal
    */
   public dockerComposeUp() {
-    const command = 'docker-compose';
-    const args = [
-      'up'
-    ];
-    this.exec(command, args);
+    const command = 'docker-compose up';
+    this.exec(command);
   }
 
   /**
    * Synched execution of command
    * @param {string} command
    */
-  public execSync(command: string) {
-    this.logService.append(this.project + ' > ' + command);
-    const data = this.childProcessService.childProcess.execSync(command, [{cwd: this.project}]);
-    this.logService.append(data);
-  }
+  // public execSync(command: string) {
+  //   this.logService.append(this.project + ' > ' + command);
+  //   const data = shell.execSync(command, [{cwd: this.project}]);
+  //   this.logService.append(data);
+  // }
 
   /**
    * Execute command and send to logger
    * @param {string} command
    */
-  public exec(command: string, args: any) {
-    this.logService.append(this.project + ' > ' + this.commandToString(command, args));
-    const compose = this.childProcessService.childProcess.spawn(
-      command,
-      args,
-      [{cwd: this.project}]
-    );
+  public exec(command: string) {
+    this.logService.append(this.project + ' > ' + command);
+    const compose = shell.exec(command, {async: true});
 
     compose.stdout.on('data', (data) => {
       this.logService.append(data);

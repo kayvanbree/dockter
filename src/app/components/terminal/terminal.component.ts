@@ -33,11 +33,8 @@ export class TerminalComponent implements OnInit {
   }
 
   sendInput() {
-    const value = this.input.nativeElement.value;
-    const args = value.split(' ');
-    const command = args[0];
-    args.shift();
-    this.dockerService.exec(command, args);
+    const command = this.input.nativeElement.value;
+    this.dockerService.exec(command);
     this.input.nativeElement.value = '';
   }
 }

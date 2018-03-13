@@ -18,6 +18,6 @@ export class ToolbarComponent {
   }
 
   public ls() {
-    this.dockerService.exec('ls', []);
+    this.dockerService.exec('ls');
   }
 }
