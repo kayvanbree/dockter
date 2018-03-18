@@ -1,8 +1,7 @@
 const electron = require('electron');
-// Module to control application life.
-const app = electron.app;
+
 // Module to create native browser window.
-const BrowserWindow = electron.BrowserWindow;
+const {app, BrowserWindow, ipcMain } = electron;
 
 const path = require('path');
 const url = require('url');
@@ -60,24 +59,28 @@ app.on('activate', function () {
 
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.
-/**
- * Execute command and send to logger
- * @param {string} command
- */
-function exec(command) {
-  console.log('Executing ' + command);
-  // console.log(this.project + ' > ' + this.commandToString(command, args));
-  const child = shellts.exec(command, {async: true});
 
+ipcMain.on('exec', (event, arg) => {
+  console.log('Executing command on main process: ' + arg);
+
+  const child = shellts.exec(arg, {async: true});
+
+  // Send data back when we have some
   child.stdout.on('data', function (data) {
-    console.log(data);
+    console.log('Sending data from main process: ' + data);
+    event.sender.send('exec-data', data);
   });
 
+  // Send errors back
   child.stderr.on('data', function (data) {
-    console.log(data);
+    console.log('Sending error from main process: ' + data);
+    event.sender.send('exec-error', data);
   });
+
+  // Finish running command
   child.on('exit', function (code, signal) {
     console.log('exec exited with code ' + code +
       ' and signal ' + signal);
+    event.sender.send('exec-exit', code, signal);
   });
-}
+});
