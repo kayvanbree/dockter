@@ -1,1 +1,5 @@
 <div class="current-project">{{currentProject}}</div>
+
+<ng-container *ngIf="files">
+  <div *ngFor="let file of files">{{file}}</div>
+</ng-container>

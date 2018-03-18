@@ -60,27 +60,28 @@ app.on('activate', function () {
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.
 
-ipcMain.on('exec', (event, arg) => {
-  console.log('Executing command on main process: ' + arg);
-
-  const child = shell.exec(arg, {async: true});
+ipcMain.on('exec', (event, dir, command) => {
+  shell.cd(dir);
+  const child = shell.exec(command, {async: true});
 
   // Send data back when we have some
   child.stdout.on('data', function (data) {
-    console.log('Sending data from main process: ' + data);
     event.sender.send('exec-data', data);
   });
 
   // Send errors back
   child.stderr.on('data', function (data) {
-    console.log('Sending error from main process: ' + data);
     event.sender.send('exec-error', data);
   });
 
   // Finish running command
   child.on('exit', function (code, signal) {
-    console.log('exec exited with code ' + code +
-      ' and signal ' + signal);
     event.sender.send('exec-exit', code, signal);
   });
+});
+
+ipcMain.on('get-files', (event, dir) => {
+  console.log('Get files !~!!!');
+  const files = shell.ls(dir);
+  event.sender.send('get-files', files);
 });

@@ -18,6 +18,6 @@ export class ToolbarComponent {
   }
 
   public ls() {
-    this.terminalService.exec('ls');
+    this.terminalService.exec('dir');
   }
 }
