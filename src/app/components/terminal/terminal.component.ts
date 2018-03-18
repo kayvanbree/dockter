@@ -37,7 +37,7 @@ export class TerminalComponent implements OnInit {
     const args = value.split(' ');
     const command = args[0];
     args.shift();
-    this.terminalService.exec(command, args);
+    this.terminalService.exec(command);
     this.input.nativeElement.value = '';
   }
 }
