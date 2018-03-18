@@ -5,7 +5,7 @@ import {ProjectService} from '../project/project.service';
 import {Subscription} from 'rxjs/Subscription';
 
 @Injectable()
-export class DockerService {
+export class TerminalService {
   project: string;
   projectSub: Subscription;
 

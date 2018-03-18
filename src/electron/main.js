@@ -7,6 +7,8 @@ const BrowserWindow = electron.BrowserWindow;
 const path = require('path');
 const url = require('url');
 
+const shelljs = require('shelljs');
+
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 var mainWindow;
@@ -58,3 +60,24 @@ app.on('activate', function () {
 
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.
+/**
+ * Execute command and send to logger
+ * @param {string} command
+ */
+function exec(command) {
+  console.log('Executing ' + command);
+  // console.log(this.project + ' > ' + this.commandToString(command, args));
+  const child = shellts.exec(command, {async: true});
+
+  child.stdout.on('data', function (data) {
+    console.log(data);
+  });
+
+  child.stderr.on('data', function (data) {
+    console.log(data);
+  });
+  child.on('exit', function (code, signal) {
+    console.log('exec exited with code ' + code +
+      ' and signal ' + signal);
+  });
+}

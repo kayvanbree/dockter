@@ -11,7 +11,7 @@ import {MaterialsModule} from './modules/materials/materials.module';
 import {NgxElectronModule} from 'ngx-electron';
 import {ProjectService} from './services/project/project.service';
 import {NgxChildProcessModule} from 'ngx-childprocess';
-import {DockerService} from './services/docker/docker.service';
+import {TerminalService} from './services/terminal/terminal.service';
 import {LogService} from './services/log/log.service';
 
 @NgModule({
@@ -31,7 +31,7 @@ import {LogService} from './services/log/log.service';
   ],
   providers: [
     ProjectService,
-    DockerService,
+    TerminalService,
     LogService
   ],
   bootstrap: [AppComponent]

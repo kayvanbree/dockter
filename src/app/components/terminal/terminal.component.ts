@@ -1,7 +1,7 @@
 import {AfterViewChecked, ChangeDetectorRef, Component, OnChanges, OnInit, ViewChild} from '@angular/core';
 import {LogService} from '../../services/log/log.service';
 import {Subscription} from 'rxjs/Subscription';
-import {DockerService} from '../../services/docker/docker.service';
+import {TerminalService} from '../../services/terminal/terminal.service';
 
 @Component({
   selector: 'app-terminal',
@@ -16,7 +16,7 @@ export class TerminalComponent implements OnInit {
   log: String = '';
   logSub: Subscription;
 
-  constructor(private logService: LogService, private changeDetector: ChangeDetectorRef, private dockerService: DockerService) { }
+  constructor(private logService: LogService, private changeDetector: ChangeDetectorRef, private terminalService: TerminalService) { }
 
   ngOnInit() {
     this.logSub = this.logService.getLog().subscribe((value) => {
@@ -37,7 +37,7 @@ export class TerminalComponent implements OnInit {
     const args = value.split(' ');
     const command = args[0];
     args.shift();
-    this.dockerService.exec(command, args);
+    this.terminalService.exec(command, args);
     this.input.nativeElement.value = '';
   }
 }
