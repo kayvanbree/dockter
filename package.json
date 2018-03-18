@@ -37,7 +37,6 @@
     "@angular/router": "^5.0.0",
     "@types/electron": "^1.6.10",
     "core-js": "^2.4.1",
-    "ngx-childprocess": "0.0.6",
     "ngx-electron": "^1.0.4",
     "rxjs": "^5.5.7",
     "shelljs": "^0.8.1",

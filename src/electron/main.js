@@ -6,7 +6,7 @@ const {app, BrowserWindow, ipcMain } = electron;
 const path = require('path');
 const url = require('url');
 
-const shelljs = require('shelljs');
+const shell = require('shelljs');
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -63,7 +63,7 @@ app.on('activate', function () {
 ipcMain.on('exec', (event, arg) => {
   console.log('Executing command on main process: ' + arg);
 
-  const child = shellts.exec(arg, {async: true});
+  const child = shell.exec(arg, {async: true});
 
   // Send data back when we have some
   child.stdout.on('data', function (data) {

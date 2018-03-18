@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core';
-import {ChildProcessService} from 'ngx-childprocess';
 import {LogService} from '../log/log.service';
 import {ProjectService} from '../project/project.service';
 import {Subscription} from 'rxjs/Subscription';
+import {ElectronService} from 'ngx-electron';
 
 @Injectable()
 export class TerminalService {
@@ -10,10 +10,13 @@ export class TerminalService {
   projectSub: Subscription;
 
   constructor(private logService: LogService,
-              private projectService: ProjectService) {
+              private projectService: ProjectService,
+              private electronService: ElectronService) {
     this.projectSub = this.projectService.getCurrentProject().subscribe((value) => {
       this.project = value;
     });
+
+    this.setupExec();
   }
 
   public dockerComposeBuild() {
@@ -30,32 +33,27 @@ export class TerminalService {
   }
 
   /**
-   * Synched execution of command
-   * @param {string} command
-   */
-  public execSync(command: string) {
-    // this.logService.append(this.project + ' > ' + command);
-    // const data = shell.execSync(command, [{cwd: this.project}]);
-    // this.logService.append(data);
-  }
-
-  /**
    * Execute command and send to logger
    * @param {string} command
    */
   public exec(command: string) {
-    // this.logService.append(this.project + ' > ' + command);
-    // const compose = shell.exec(command, {async: true});
-    //
-    // compose.stdout.on('data', (data) => {
-    //   this.logService.append(data);
-    // });
-    // compose.stderr.on('data', (data) => {
-    //   this.logService.append(data);
-    // });
-    // compose.on('exit', (code, signal) => {
-    //   this.logService.append('exec exited with ' +
-    //     `code ${code} and signal ${signal}`);
-    // });
+    this.electronService.ipcRenderer.send('exec', command);
+  }
+
+  /**
+   * Sets up message handlers for exec command
+   */
+  private setupExec(): void {
+    this.electronService.ipcRenderer.on('exec-data', (event, arg) => {
+      console.log('Renderer got data: ' + arg);
+    });
+
+    this.electronService.ipcRenderer.on('exec-error', (event, arg) => {
+      console.log('Renderer got error: ' + arg);
+    });
+
+    this.electronService.ipcRenderer.on('exec-exit', (event, arg) => {
+      console.log('Renderer got exit: ' + arg);
+    });
   }
 }
