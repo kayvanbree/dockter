@@ -1,7 +1,14 @@
 # Dockter
 
+Dockter for Docker whill be what GitKraken is for Git. There are some plugins for Docker that add 
+Docker functionality to an IDE like Eclipse, and a web-based Docker tool, but I haven't seen any good
+Docker tools that make use of the full CLI. 
+
 Dockter is in the early development stages of becoming a full-fletched IDE for Dockter. The project 
-aims to simplify using Docker on your development machine and to visualize running containers. 
+aims to simplify using Docker on your development machine and to visualize running containers. Start
+a Dockter project and edit your docker-compose.yml and Dockerfiles to build your application. Use
+syntax highlighting to get a clear view of the project, or even visualize your running containers.
+This will all be possible soon.
 
 ## Planned features
 

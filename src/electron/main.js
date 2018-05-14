@@ -1,11 +1,12 @@
 const electron = require('electron');
-// Module to control application life.
-const app = electron.app;
+
 // Module to create native browser window.
-const BrowserWindow = electron.BrowserWindow;
+const {app, BrowserWindow, ipcMain } = electron;
 
 const path = require('path');
 const url = require('url');
+
+const shell = require('shelljs');
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -58,3 +59,29 @@ app.on('activate', function () {
 
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.
+
+ipcMain.on('exec', (event, dir, command) => {
+  shell.cd(dir);
+  const child = shell.exec(command, {async: true});
+
+  // Send data back when we have some
+  child.stdout.on('data', function (data) {
+    event.sender.send('exec-data', data);
+  });
+
+  // Send errors back
+  child.stderr.on('data', function (data) {
+    event.sender.send('exec-error', data);
+  });
+
+  // Finish running command
+  child.on('exit', function (code, signal) {
+    event.sender.send('exec-exit', code, signal);
+  });
+});
+
+ipcMain.on('get-files', (event, dir) => {
+  console.log('Get files !~!!!');
+  const files = shell.ls(dir);
+  event.sender.send('get-files', files);
+});

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {DockerService} from '../../services/docker/docker.service';
+import {TerminalService} from '../../services/terminal/terminal.service';
 
 @Component({
   selector: 'app-toolbar',
@@ -7,17 +7,17 @@ import {DockerService} from '../../services/docker/docker.service';
   styleUrls: ['./toolbar.component.css']
 })
 export class ToolbarComponent {
-  constructor(private dockerService: DockerService) {}
+  constructor(private terminalService: TerminalService) {}
 
   public run() {
-    this.dockerService.dockerComposeUp();
+    this.terminalService.dockerComposeUp();
   }
 
   public build() {
-    this.dockerService.dockerComposeBuild();
+    this.terminalService.dockerComposeBuild();
   }
 
   public ls() {
-    this.dockerService.exec('ls', []);
+    this.terminalService.exec('dir');
   }
 }
